@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vietnam-logistics
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      deployment: vietnam-logistics
+
+  template:
+    metadata:
+      labels:
+        deployment: vietnam-logistics
+
+    spec:
+      containers:
+        - name: vietnam-logistics
+
+          image: image-registry.openshift-image-registry.svc:5000/gauthier-gerard-sopr-dev/vietnam-logistics:latest
+
+          ports:
+            - name: http
+              containerPort: 8080
+
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: openshift
+
+          envFrom:
+            - configMapRef:
+                name: vietnam-logistics-config
+
+            - secretRef:
+                name: vietnam-logistics-secret
