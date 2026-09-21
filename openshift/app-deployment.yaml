@@ -1,7 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
+
 metadata:
   name: vietnam-logistics
+  labels:
+    app: vietnam-logistics
+
+  annotations:
+    image.openshift.io/triggers: >-
+      [{"from":{"kind":"ImageStreamTag","name":"vietnam-logistics:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"vietnam-logistics\")].image"}]
 
 spec:
   replicas: 1
@@ -9,6 +16,12 @@ spec:
   selector:
     matchLabels:
       deployment: vietnam-logistics
+
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
 
   template:
     metadata:
@@ -19,7 +32,8 @@ spec:
       containers:
         - name: vietnam-logistics
 
-          image: image-registry.openshift-image-registry.svc:5000/gauthier-gerard-sopr-dev/vietnam-logistics:latest
+          image: vietnam-logistics:latest
+          imagePullPolicy: IfNotPresent
 
           ports:
             - name: http

@@ -1,0 +1,37 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: vietnam-logistics
+  labels:
+    app: vietnam-logistics
+
+spec:
+  runPolicy: Serial
+
+  source:
+    type: Git
+    git:
+      uri: https://github.com/gerard-sopra/demo.git
+      ref: main
+
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: ubi8-openjdk-21:1.18
+        namespace: openshift
+
+  output:
+    to:
+      kind: ImageStreamTag
+      name: vietnam-logistics:latest
+
+  successfulBuildsHistoryLimit: 5
+  failedBuildsHistoryLimit: 5
+
+  triggers:
+    - type: ConfigChange
+
+    - type: ImageChange
+      imageChange: {}
