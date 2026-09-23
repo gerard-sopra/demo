@@ -9,3 +9,5 @@ data:
   DB_NAME: vietnam_logistics
 
   KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+
+  ELASTICSEARCH_URI: http://elasticsearch:9200

@@ -30,3 +30,36 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.1.4
+    container_name: vietnam-logistics-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:9.1.4
+    container_name: vietnam-logistics-kibana
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+
+      # Do not send usage telemetry to Elastic
+      TELEMETRY_OPTIN: "false"
+
+      # Don't allow it to be re-enabled from Kibana UI
+      TELEMETRY_ALLOWCHANGINGOPTINSTATUS: "false"
+
+      # Tell Fleet that this environment has no Internet services
+      XPACK_FLEET_ISAIRGAPPED: "true"
+    depends_on:
+      - elasticsearch
+
+volumes:
+  elasticsearch-data:
