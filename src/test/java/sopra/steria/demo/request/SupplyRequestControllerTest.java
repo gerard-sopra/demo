@@ -9,6 +9,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import sopra.steria.demo.base.Base;
 import sopra.steria.demo.base.BaseRepository;
+import sopra.steria.demo.base.BaseType;
 import sopra.steria.demo.inventory.SupplyType;
 import tools.jackson.databind.ObjectMapper;
 
@@ -41,6 +42,7 @@ class SupplyRequestControllerTest {
         Base base = new Base();
         base.setName("Test FOB");
         base.setLocation("Kontum");
+        base.setType(BaseType.FOB);
 
         base = baseRepository.save(base);
 
@@ -67,6 +69,7 @@ class SupplyRequestControllerTest {
         Base base = new Base();
         base.setName("Test FOB");
         base.setLocation("Kontum");
+        base.setType(BaseType.FOB);
 
         base = baseRepository.save(base);
 
@@ -107,6 +110,7 @@ class SupplyRequestControllerTest {
         Base base = new Base();
         base.setName("Test FOB");
         base.setLocation("Dak To");
+        base.setType(BaseType.FOB);
 
         base = baseRepository.save(base);
 
