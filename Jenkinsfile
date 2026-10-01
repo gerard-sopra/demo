@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     stages {
-        stage('Hello') {
+        stage('Build') {
             steps {
-                echo 'Building Vietnam Logistics'
+                sh './mvnw clean package'
             }
         }
     }
